@@ -5,30 +5,31 @@ import Location from 'react-router/lib/Location';
 import createStore from './redux/create';
 import ApiClient from './ApiClient';
 import universalRouter from './universalRouter';
+import routes from './views/routes';
+import ClientApp from './ClientApp';
 const history = new BrowserHistory();
-const client = new ApiClient();
 
 const dest = document.getElementById('content');
-const store = createStore(client, window.__data);
-const location = new Location(document.location.pathname, document.location.search);
-universalRouter(location, history, store)
-  .then((component) => {
-    if (__DEVTOOLS__) {
-      const { DevTools, DebugPanel, LogMonitor } = require('redux-devtools/lib/react');
-      console.info('You will see a "Warning: React attempted to reuse markup in a container but the checksum was' +
-        ' invalid." message. That\'s because the redux-devtools are enabled.');
-      React.render(<div>
-        {component}
-        <DebugPanel top right bottom key="debugPanel">
-          <DevTools store={store} monitor={LogMonitor}/>
-        </DebugPanel>
-      </div>, dest);
-    } else {
-      React.render(component, dest);
-    }
-  }, (error) => {
-    console.error(error);
-  });
+//universalRouter(location, history, store)
+//  .then((component) => {
+//    if (__DEVTOOLS__) {
+//      const { DevTools, DebugPanel, LogMonitor } = require('redux-devtools/lib/react');
+//      console.info('You will see a "Warning: React attempted to reuse markup in a container but the checksum was' +
+//        ' invalid." message. That\'s because the redux-devtools are enabled.');
+//      React.render(<div>
+//        {component}
+//        <DebugPanel top right bottom key="debugPanel">
+//          <DevTools store={store} monitor={LogMonitor}/>
+//        </DebugPanel>
+//      </div>, dest);
+//    } else {
+//      React.render(component, dest);
+//    }
+//  }, (error) => {
+//    console.error(error);
+//  });
+
+React.render(<ClientApp/>, dest);
 
 
 if (process.env.NODE_ENV !== 'production') {
