@@ -10,6 +10,7 @@ export default class Home extends Component {
         <div>
           <CounterButton/>
         </div>
+        <img src={require('./kitten.jpg')}/>
       </div>
     );
   }
