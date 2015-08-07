@@ -68,25 +68,30 @@ class Widgets extends Component {
 @connect(state => ({
   widgets: state.widgets.data,
   error: state.widgets.error,
-  loading: state.widgets.loading
+  loading: state.widgets.loading,
+  query: state.router.query.q
 }))
 export default class WidgetsContainer {
   static propTypes = {
     widgets: PropTypes.array,
     error: PropTypes.string,
     loading: PropTypes.bool,
+    query: PropTypes.string,
     dispatch: PropTypes.func.isRequired
   }
 
   static fetchData(store) {
-    if (!isLoaded(store.getState())) {
-      return store.dispatch(loadWidgets());
+    const state = store.getState();
+    if (!isLoaded(state)) {
+      const query = state.router && state.router.query && state.router.query.q || null;
+      return store.dispatch(loadWidgets(query));
     }
   }
 
   render() {
-    const { widgets, error, loading, dispatch } = this.props;
-    return <Widgets widgets={widgets} error={error}
+    const { widgets, error, query, loading, dispatch } = this.props;
+    console.info('Here, we have the query param, but it\'s too late to load data.', query);
+    return <Widgets widgets={widgets} error={error} query={query}
                     loading={loading} {...bindActionCreators(widgetActions, dispatch)}/>;
   }
 }
