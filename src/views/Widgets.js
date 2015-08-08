@@ -85,6 +85,7 @@ export default class WidgetsContainer {
   }
 
   render() {
+    console.log(this.props);
     const { widgets, error, loading, dispatch } = this.props;
     return <Widgets widgets={widgets} error={error}
                     loading={loading} {...bindActionCreators(widgetActions, dispatch)}/>;

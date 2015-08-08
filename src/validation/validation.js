@@ -30,6 +30,12 @@ export function maxLength(max) {
   }
 }
 
+export function url(value){
+  if(!isEmpty(value) && !/^(https?|ftp):\/\/[^\s\/$.?#].[^\s]*$/.test(value)){
+    return '无效的网址'
+  }
+}
+
 export function createValidator(rules) {
   return (data = {}) => {
     const errors = {};

@@ -20,7 +20,7 @@ export default class Html extends Component {
 
   render() {
     const {webpackStats, component, store} = this.props;
-    const title = 'React Redux Example';
+    const title = '一起弹幕';
     const description = 'All the modern best practices in one example.';
     const image = 'https://react-redux.herokuapp.com/logo.jpg';
     return (
@@ -34,8 +34,8 @@ export default class Html extends Component {
           <meta property="og:title" content={title}/>
           <meta property="og:description" content={description}/>
           <meta name="twitter:card" content="summary"/>
-          <meta property="twitter:site" content="@erikras"/>
-          <meta property="twitter:creator" content="@erikras"/>
+          <meta property="twitter:site" content="@xaob"/>
+          <meta property="twitter:creator" content="@xaob"/>
           <meta property="twitter:image" content={image}/>
           <meta property="twitter:image:width" content="200"/>
           <meta property="twitter:image:height" content="200"/>
@@ -43,7 +43,9 @@ export default class Html extends Component {
           <meta property="twitter:description" content={description}/>
 
           <link rel="shortcut icon" href="/favicon.ico" />
-          <link href={cdn + 'twitter-bootstrap/3.3.5/css/bootstrap.css'}
+          <link href="/styles.css"
+                media="screen, projection" rel="stylesheet" type="text/css" />
+          <link href={cdn + 'normalize/3.0.3/normalize.min.css'}
                 media="screen, projection" rel="stylesheet" type="text/css" />
           <link href={cdn + 'font-awesome/4.3.0/css/font-awesome.min.css'}
                 media="screen, projection" rel="stylesheet" type="text/css" />

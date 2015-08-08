@@ -5,6 +5,7 @@ import Location from 'react-router/lib/Location';
 import createStore from './redux/create';
 import ApiClient from './ApiClient';
 import universalRouter from './universalRouter';
+import injectTapEvent from 'react-tap-event-plugin';
 const history = new BrowserHistory();
 const client = new ApiClient();
 
@@ -17,6 +18,7 @@ universalRouter(location, history, store)
       const { DevTools, DebugPanel, LogMonitor } = require('redux-devtools/lib/react');
       console.info('You will see a "Warning: React attempted to reuse markup in a container but the checksum was' +
         ' invalid." message. That\'s because the redux-devtools are enabled.');
+      injectTapEvent();
       React.render(<div>
         {component}
         <DebugPanel top right bottom key="debugPanel">
@@ -24,6 +26,7 @@ universalRouter(location, history, store)
         </DebugPanel>
       </div>, dest);
     } else {
+      injectTapEvent();
       React.render(component, dest);
     }
   }, (error) => {

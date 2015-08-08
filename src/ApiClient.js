@@ -7,6 +7,12 @@ import config from 'config';
  *
  * Remove it at your own risk.
  */
+
+/**
+ *
+ * Modified!!!
+ *
+ */
 class ApiClient_ {
   constructor(req) {
     ['get', 'post', 'put', 'patch', 'del'].
@@ -27,7 +33,8 @@ class ApiClient_ {
             }
             request.end((err, res) => {
               if (err) {
-                reject(res.body || err);
+                if(res) reject(res.body || err);
+                else reject(err);
               } else {
                 resolve(res.body);
               }

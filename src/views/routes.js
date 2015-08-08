@@ -8,6 +8,7 @@ import Login from 'views/Login';
 import Survey from 'views/Survey';
 import NotFound from 'views/NotFound';
 import Redirect from 'views/Redirect';
+import Danmu from 'views/Danmu';
 
 export default (
   <Route component={App}>
@@ -17,6 +18,7 @@ export default (
     <Route path="/login" component={Login}/>
     <Route path="/survey" component={Survey}/>
     <Route path="/redirect" component={Redirect} onEnter={Redirect.onEnter}/>
+    <Route path="/:roomId" component={Danmu}/>
     <Route path="*" component={NotFound}/>
   </Route>
 );

@@ -19,7 +19,7 @@ export default function api() {
   return new Promise((resolve) => {
     app.use((req, res) => {
       let matcher = req.url.split('/');
-      let action = matcher && actions[matcher[1]];
+      let action = matcher && actions[matcher[1].split('?')[0]];
       if (action) {
         action(req, matcher.slice(2))
           .then((result) => {
