@@ -19,7 +19,7 @@ universalRouter(location, history, store)
       console.info('You will see a "Warning: React attempted to reuse markup in a container but the checksum was' +
         ' invalid." message. That\'s because the redux-devtools are enabled.');
       injectTapEvent();
-      React.render(<div>
+      React.render(<div className="realContent">
         {component}
         <DebugPanel top right bottom key="debugPanel">
           <DevTools store={store} monitor={LogMonitor}/>

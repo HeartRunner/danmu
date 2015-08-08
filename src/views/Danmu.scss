@@ -1,10 +1,72 @@
+$barWidth: 285px;
+
 .danmu{
   height:100%;
   width:100%;
+  position:relative;
   >.frame{
     height: 100%;
-    width: 100%;
     border: none;
     outline: none;
+    margin-right:$barWidth;
+    overflow:hidden;
+    position:relative;
+    >.wordsContainer{
+      position:absolute;
+      top:0;
+      bottom:0;
+      left:0;
+      right:0;
+      pointer-events: none;
+      >.logo{
+        position:absolute;
+        top:12px;
+        left:0;
+        background: rgba(#bbbbbb,.8);
+        padding:12px 21px;
+      }
+    }
+    >.inputContainer{
+      position:absolute;
+      bottom:34px;
+      left:0;
+      right:0;
+      margin:auto;
+      width:670px;
+      padding:9px 12px;
+      background:#f3f3f3;
+      border-radius: 5px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.5);
+      >.textField{
+        margin-right:112px;
+      }
+      >.sendButton{
+        position:absolute;
+        right:0;
+        top:0;
+        bottom:0;
+        align-items: center;
+        display: flex;
+        padding: 0 12px 0 0;
+      }
+    }
+  }
+
+  >.sideBar{
+    width: $barWidth;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: #2d2d2d;
+
+    >.banner{
+      background: #343434;
+      color: #ccc;
+      text-align:center;
+      padding:17px 13px;
+      box-shadow: 0 2px 1px rgba(0,0,0,.5);
+    }
+
   }
 }

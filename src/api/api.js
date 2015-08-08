@@ -4,9 +4,19 @@ import bodyParser from 'body-parser';
 import config from '../config';
 import * as actions from './routes/index';
 import PrettyError from 'pretty-error';
+import socketio from 'socket.io';
 
 const pretty = new PrettyError();
 const app = express();
+
+let io = socketio(8087);
+io.on('connection', function (socket) {
+  socket.emit('word', { word: '测试弹幕' });
+  socket.on('send', function (data) {
+    console.log(data);
+  });
+});
+
 app.use(session({
   secret: 'react and redux rule!!!!',
   resave: false,
