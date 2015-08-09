@@ -4,11 +4,18 @@ import {
   ROOM_CREATE_FAIL,
   ROOM_LOAD,
   ROOM_LOAD_SUCCESS,
-  ROOM_LOAD_FAIL
+  ROOM_LOAD_FAIL,
+  SOCKET_CONNET,
+  SOCKET_DISCONNECT,
+  SOCKET_SEND,
+  SOCKET_RECV,
+  SOCKET_JOIN_ROOM,
+  WORDS_REMOVE
 } from '../actions/actionTypes';
 
 const initialState = {
-  loaded: false
+  loaded: false,
+  words: {}
 };
 
 export default function info(state = initialState, action = {}) {
@@ -49,6 +56,22 @@ export default function info(state = initialState, action = {}) {
       return{
         ...state,
         loadErr: action.error
+      };
+    case SOCKET_RECV:
+      console.log('SOCKET_RECV', action.message);
+      let words = state.words;
+      let newMessage = {};
+      newMessage[action.key] = action.message;
+      return {
+        ...state,
+        words: Object.assign({}, words, newMessage)
+      };
+    case WORDS_REMOVE:
+      let words = Object.assign({}, state.words);
+      delete words[action.id];
+      return {
+        ...state,
+        words
       };
     default:
       return state;

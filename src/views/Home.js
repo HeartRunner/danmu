@@ -9,11 +9,7 @@ import {connect} from 'react-redux';
 import * as roomActions from '../actions/roomActions';
 
 import Router from 'react-router';
-
-
-
 let ThemeManager = new mui.Styles.ThemeManager();
-ThemeManager.setTheme(ThemeManager.types.DARK);
 const styles = __CLIENT__ ? require('./Home.scss') : requireServerCss(require.resolve('./Home.scss'));
 
 class Home extends Component {
@@ -34,7 +30,7 @@ class Home extends Component {
   }
 
   state = {
-    url: 'http://baidu.com',
+    url: '',
     urlError: ''
   }
 
@@ -72,9 +68,13 @@ class Home extends Component {
       <div className={styles.home}>
         <div className={styles.main}>
             <h1>一起弹幕</h1>
+            <div className={styles.description}>
+              好友间的弹幕，无论何处何时
+            </div>
             <div className={styles.urlText}>
+
               <TextField
-                     hintText="请输入网址"
+                     hintText="请输入网址,例如：http://live.zjstv.com/"
                      fullWidth={true}
                      id="url"
                      value={url}
@@ -83,10 +83,13 @@ class Home extends Component {
               {urlError && <div className={styles.textDanger}>{urlError}</div>}
               {createError && <div className={styles.textDanger}>{createError}</div>}
             </div>
-            <RaisedButton primary={true} disabled={urlError.length>0||url.length===0}
+            <RaisedButton disabled={urlError.length>0||url.length===0}
               className={styles.submitButton} fullWidth={true} onClick={::this.onSubmit}
               label={loading?'创建中':'走起'}>
             </RaisedButton>
+            <div className={styles.copyright}>
+              测试原型，联系：yaotianyu0512@gmail.com
+            </div>
         </div>
 
       </div>

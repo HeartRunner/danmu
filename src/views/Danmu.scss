@@ -8,9 +8,12 @@ $barWidth: 285px;
     height: 100%;
     border: none;
     outline: none;
-    margin-right:$barWidth;
+    margin-left:$barWidth;
     overflow:hidden;
     position:relative;
+    .iframe{
+      border: none;
+    }
     >.wordsContainer{
       position:absolute;
       top:0;
@@ -18,13 +21,7 @@ $barWidth: 285px;
       left:0;
       right:0;
       pointer-events: none;
-      >.logo{
-        position:absolute;
-        top:12px;
-        left:0;
-        background: rgba(#bbbbbb,.8);
-        padding:12px 21px;
-      }
+
     }
     >.inputContainer{
       position:absolute;
@@ -33,8 +30,8 @@ $barWidth: 285px;
       right:0;
       margin:auto;
       width:670px;
-      padding:9px 12px;
-      background:#f3f3f3;
+      padding:6px 12px;
+      background: rgba(#f3f3f3,.9);
       border-radius: 5px;
       box-shadow: 0 1px 3px rgba(0,0,0,.5);
       >.textField{
@@ -57,15 +54,14 @@ $barWidth: 285px;
     position: absolute;
     top: 0;
     bottom: 0;
-    right: 0;
-    background: #2d2d2d;
+    left: 0;
+    background: HSL(0, 0%, 100%);
 
     >.banner{
-      background: #343434;
-      color: #ccc;
+      background: #FAFCF3;
+      color: #4a4a4a;
       text-align:center;
       padding:17px 13px;
-      box-shadow: 0 2px 1px rgba(0,0,0,.5);
     }
 
   }

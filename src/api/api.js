@@ -11,9 +11,28 @@ const app = express();
 
 let io = socketio(8087);
 io.on('connection', function (socket) {
-  socket.emit('word', { word: '测试弹幕' });
-  socket.on('send', function (data) {
-    console.log(data);
+  socket.emit('message', {
+    type: 'SOCKET_CONNECT_SUCCESS'
+  });
+  socket.on('message', (data)=>{
+    console.log('socket', data);
+    switch(data.type){
+      case 'SOCKET_JOIN_ROOM':
+        if(socket.room) socket.leave(socket.room)
+        socket.join(data.room);
+        socket.room = data.room;
+        break;
+      case 'SOCKET_SEND':
+        io.sockets.in(socket.room).emit('message',{
+          type: 'SOCKET_RECV',
+          message: data.message
+        });
+        console.log('sendsend');
+        break;
+    }
+  });
+  socket.on('error', (err)=>{
+    console.log(err);
   });
 });
 

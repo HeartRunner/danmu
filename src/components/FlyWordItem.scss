@@ -1,0 +1,10 @@
+.flyWordItem {
+  position:absolute;
+  right:0;
+  top:0;
+  color:#fff;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.8), 0 0 5px rgba(0,0,0,.3);
+  transition: right 5s linear;
+  font-size: 20px;
+  display: inline;
+}
