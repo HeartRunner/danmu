@@ -56,7 +56,7 @@ let socket;
 
 function _connectIO(id) {
   return (dispatch)=> {
-    if(!socket) socket = io('http://'+window.location.host+'/:8087');
+    if(!socket) socket = io('http://'+window.location.host+':8087');
     socket.on('connect', function () {
       socket.send({
         type: SOCKET_JOIN_ROOM,
