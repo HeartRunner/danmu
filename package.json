@@ -1,14 +1,13 @@
 {
-  "name": "react-redux-universal-hot-example",
+  "name": "Danmu",
   "description": "Example of an isomorphic (universal) webapp using react redux and hot reloading",
-  "author": "Erik Rasmussen <rasmussenerik@gmail.com> (http://github.com/erikras)",
-  "license": "MIT",
+  "author": "Tianyu <yaotianyu0512k@gmail.com> (http://tianyu.xyz)",
   "version": "0.0.3",
   "repository": {
     "type": "git",
-    "url": "https://github.com/erikras/react-redux-universal-hot-example"
+    "url": "https://github.com/HeartRunner/danmu"
   },
-  "homepage": "https://github.com/erikras/react-redux-universal-hot-example",
+  "homepage": "http://yamee.pub/",
   "keywords": [
     "react",
     "isomorphic",
@@ -37,7 +36,7 @@
       "env": {
         "NODE_PATH": "./src",
         "NODE_ENV": "production",
-        "PORT": 8080
+        "PORT": 8187
       }
     },
     "start-dev": {
