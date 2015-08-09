@@ -28,7 +28,8 @@
     "lint": "eslint -c .eslintrc src",
     "start-dev": "node ./node_modules/better-npm-run start-dev",
     "watch-client": "node ./node_modules/better-npm-run watch-client",
-    "dev": "concurrent --kill-others \"npm run watch-client\" \"npm run start-dev\""
+    "dev": "concurrent --kill-others \"npm run watch-client\" \"npm run start-dev\"",
+    "start-forever": "NODE_ENV=production NODE_PATH=./src PORT=8187 forever start ./babel.server.js"
   },
   "betterScripts": {
     "start": {
