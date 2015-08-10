@@ -5,10 +5,15 @@ import config from '../config';
 import * as actions from './routes/index';
 import PrettyError from 'pretty-error';
 import socketio from 'socket.io';
+import * as db from './db';
 
 const pretty = new PrettyError();
 const app = express();
+/*
 
+  SOCKET.IO SHIT
+
+ */
 let io = socketio(8087);
 io.on('connection', function (socket) {
   socket.emit('message', {
@@ -17,18 +22,46 @@ io.on('connection', function (socket) {
   socket.on('message', (data)=>{
     console.log('socket', data);
     switch(data.type){
-      case 'SOCKET_JOIN_ROOM':
-        if(socket.room) socket.leave(socket.room)
-        socket.join(data.room);
-        socket.room = data.room;
+      case 'SOCKET_JOIN_ROOM':  //join a room
+        if(socket.room) socket.leave(socket.room);
+
+        let users = db.joinRoom(data.room, socket.id);
+        if(users){
+          socket.join(data.room);
+          socket.room = data.room;
+          io.sockets.in(socket.room).emit('message', {
+            type: 'SOCKET_JOIN_ROOM_SUCCESS',
+            users
+          });
+        }
+        else {
+          socket.emit('message', {
+            type: 'SOCKET_JOIN_ROOM_FAIL'
+          });
+        }
         break;
-      case 'SOCKET_SEND':
+
+      case 'SOCKET_SEND': //user send
         io.sockets.in(socket.room).emit('message',{
           type: 'SOCKET_RECV',
           message: data.message
         });
         console.log('sendsend');
         break;
+
+      case 'SOCKET_CHANGE_NAME':
+        let users = db.changeName(socket.room, socket.id data.newName);
+        if(users){
+          io.sockets.in(socket.room).emit('message', {
+            type: 'SOCKET_CHANGE_NAME_SUCCESS',
+            users
+          });
+        }
+        else {
+          socket.emit('message', {
+            type: 'SOCKET_CHANGE_NAME_FAIL'
+          });
+        }
     }
   });
   socket.on('error', (err)=>{

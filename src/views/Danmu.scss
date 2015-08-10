@@ -11,8 +11,20 @@ $barWidth: 285px;
     margin-left:$barWidth;
     overflow:hidden;
     position:relative;
+    transition:margin-left .3s ease;
+    &.hideSide{
+      margin-left:0;
+    }
     .iframe{
       border: none;
+    }
+    >.barSwitch{
+      position:absolute;
+      top:0;
+      left:0;
+      width:40px;
+      height:40px;
+      cursor:pointer;
     }
     >.wordsContainer{
       position:absolute;
@@ -55,8 +67,11 @@ $barWidth: 285px;
     top: 0;
     bottom: 0;
     left: 0;
-    background: HSL(0, 0%, 100%);
-
+    background: HSL(0, 0%, 88%);
+    transition:margin-left .3s ease;
+    &.hideSide{
+      margin-left: -$barWidth;
+    }
     >.banner{
       background: #FAFCF3;
       color: #4a4a4a;
@@ -64,5 +79,13 @@ $barWidth: 285px;
       padding:17px 13px;
     }
 
+  }
+
+
+  .listItem{
+    div>div>div{
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
   }
 }

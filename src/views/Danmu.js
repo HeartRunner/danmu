@@ -4,10 +4,12 @@ import {isRoomLoaded} from '../reducers/room';
 import {getRoom as loadRoom} from '../actions/roomActions';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import cn from 'classnames';
 import * as roomActions from '../actions/roomActions';
 import {TextField, FlatButton, List, ListItem, ListDivider} from 'material-ui';
 import mui from 'material-ui';
 import FlyWords from '../components/FlyWords';
+
 
 let ThemeManager = new mui.Styles.ThemeManager();
 
@@ -23,6 +25,7 @@ class Danmu extends Component {
 
   state = {
     chat: '',
+    hideSide: false
   }
 
   static childContextTypes = {
@@ -45,15 +48,20 @@ class Danmu extends Component {
 
   }
 
-  componentDidUnmount(){
-    disconnect();
+  componentWillUnmount(){
+    if(__CLIENT__){
+     this.props.disconnect();
+    }
+
   }
 
   sendMessage(){
     this.props.send(this.props.roomData.id, this.state.chat);
     this.setState({chat: ''});
   }
-
+  toggleSideBar(){
+    this.setState({hideSide: !this.state.hideSide});
+  }
   onTextChange(event){
     this.setState({chat: event.target.value});
   }
@@ -65,11 +73,16 @@ class Danmu extends Component {
       this.sendMessage();
     }
   }
+
   render() {
     const {roomData: {url}, words, removeWord} = this.props;
+    const {hideSide} = this.state;
     return (
       <div className={styles.danmu}>
-        <div className={styles.frame}>
+        <div className={cn(styles.frame, {hideSide})}>
+          <div className={styles.barSwitch} onClick={::this.toggleSideBar}>
+            👦👧
+          </div>
           <div className={styles.wordsContainer}>
             <FlyWords words={words} removeWord={removeWord}/>
           </div>
@@ -90,12 +103,12 @@ class Danmu extends Component {
           </div>
           <iframe className={styles.iframe} src={url} width="100%" height="100%" border="none"/>
         </div>
-        <div className={styles.sideBar}>
+        <div className={cn(styles.sideBar, {hideSide})}>
           <div className={styles.banner}>
             一起弹幕
           </div>
           <List subheader="房间信息">
-            <ListItem primaryText={url?url:'无内容'}/>
+            <ListItem className={styles.listItem} primaryText={url?url:'无内容'}/>
           </List>
           <ListDivider />
           <List subheader="在线用户">
