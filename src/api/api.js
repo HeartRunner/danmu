@@ -24,7 +24,7 @@ io.on('connection', function (socket) {
     switch(data.type){
       case 'SOCKET_JOIN_ROOM':  //join a room
         if(socket.room) socket.leave(socket.room);
-
+        //TODO EMIT ROOM INFO
         let users = db.joinRoom(data.room, socket.id);
         if(users){
           socket.join(data.room);
@@ -63,6 +63,7 @@ io.on('connection', function (socket) {
         }
     }
   });
+  //TODO ONDISCONNECT
   socket.on('error', (err)=>{
     console.log(err);
   });

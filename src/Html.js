@@ -21,7 +21,7 @@ export default class Html extends Component {
   render() {
     const {webpackStats, component, store} = this.props;
     const title = '一起弹幕';
-    const description = 'All the modern best practices in one example.';
+    const description = '好友间的弹幕';
     const image = 'https://react-redux.herokuapp.com/logo.jpg';
     return (
       <html lang="en-us">
