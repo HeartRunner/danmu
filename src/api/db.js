@@ -14,7 +14,7 @@ let _idSeed = 0;
  */
 export function createRoom(url){
   if(url){
-    const key = _idSeed++;
+    const key = (++_idSeed).toString(36);
     const room = {
       id: key,
       url,
@@ -33,7 +33,7 @@ export function joinRoom(id, session){
   let room = _rooms[id];
   if(room){
     let orginUsers = room.users;
-    room.users = {...orginUsers, session};
+    room.users = {...orginUsers, [session]: session};
     return room.users;
   }
 }

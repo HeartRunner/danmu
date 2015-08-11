@@ -21,11 +21,13 @@ class Danmu extends Component {
   static propTypes = {
     roomData: PropTypes.object,
     words: PropTypes.object,
+    users: PropTypes.object,
+    connected: PropTypes.bool
   }
 
   state = {
     chat: '',
-    hideSide: false
+    hideSide: true
   }
 
   static childContextTypes = {
@@ -41,15 +43,18 @@ class Danmu extends Component {
   componentDidMount(){
     //start socketio
     const {
-      roomData: {id},
+      roomData,
       connect
       } = this.props;
-    connect(id);
+    //if room exist
+    if(roomData)
+      connect(roomData.id);
 
   }
 
   componentWillUnmount(){
     if(__CLIENT__){
+      console.log('go disconnect');
      this.props.disconnect();
     }
 
@@ -75,13 +80,21 @@ class Danmu extends Component {
   }
 
   render() {
-    const {roomData: {url}, words, removeWord} = this.props;
+    const {roomData, words, removeWord, users, connected} = this.props;
+    if(!roomData){
+      return (<div>木有这个链接！</div>)
+    }
+
+    const {url} = roomData;
     const {hideSide} = this.state;
+
+    const indicator = connected?'😄':'😠';
+
     return (
       <div className={styles.danmu}>
-        <div className={cn(styles.frame, {hideSide})}>
+        <div className={cn(styles.frame, {[styles.hideSide]:hideSide})}>
           <div className={styles.barSwitch} onClick={::this.toggleSideBar}>
-            👦👧
+            {hideSide?indicator+'一起弹幕':indicator}
           </div>
           <div className={styles.wordsContainer}>
             <FlyWords words={words} removeWord={removeWord}/>
@@ -98,12 +111,12 @@ class Danmu extends Component {
                 />
             </div>
             <div className={styles.sendButton}>
-              <FlatButton label="发送" onClick={::this.onSendClick}/>
+              <FlatButton label="发送" onClick={::this.onSendClick} disabled={!connected}/>
             </div>
           </div>
           <iframe className={styles.iframe} src={url} width="100%" height="100%" border="none"/>
         </div>
-        <div className={cn(styles.sideBar, {hideSide})}>
+        <div className={cn(styles.sideBar, {[styles.hideSide]:hideSide})}>
           <div className={styles.banner}>
             一起弹幕
           </div>
@@ -111,11 +124,16 @@ class Danmu extends Component {
             <ListItem className={styles.listItem} primaryText={url?url:'无内容'}/>
           </List>
           <ListDivider />
-          <List subheader="在线用户">
-            <ListItem primaryText="这功能还没写" />
-            <ListItem primaryText="有问题联系小不" />
-            <ListItem primaryText="yaotianyu0512@gmail.com" />
-          </List>
+          { users !==undefined && users !== null &&
+            <List subheader={'在线用户 '+ Object.keys(users).length}>
+              {
+
+                Object.keys(users).map((key)=>
+                    <ListItem key={key} primaryText={users[key]}/>
+                )
+              }
+            </List>
+          }
         </div>
       </div>
     );
@@ -125,14 +143,18 @@ class Danmu extends Component {
 
 @connect(state => ({
   roomData: state.room.roomData,
-  words: state.room.words
+  words: state.room.words,
+  users: state.room.users,
+  connected: state.room.connected
 }))
 export default
 class DanmuContainer {
   static propTypes = {
     roomData: PropTypes.object,
+    users: PropTypes.object,
     dispatch: PropTypes.func.isRequired,
-    words: PropTypes.object
+    words: PropTypes.object,
+    connected: PropTypes.bool
   }
 
   static fetchData(store, params) {
@@ -142,8 +164,8 @@ class DanmuContainer {
   }
 
   render() {
-    const { words, roomData, dispatch } = this.props;
-    return <Danmu roomData={roomData} words={words}
+    const { words, roomData, users, connected, dispatch } = this.props;
+    return <Danmu roomData={roomData} words={words} users={users} connected={connected}
       {...bindActionCreators(roomActions, dispatch)}>
       {this.props.children}
     </Danmu>;

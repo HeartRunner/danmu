@@ -3,4 +3,4 @@ export loadWidgets from './loadWidgets';
 export loadAuth from './loadAuth';
 export login from './login';
 export logout from './logout';
-export {createRoom, getRoom} from './createRoom';
+export * from './rooms';

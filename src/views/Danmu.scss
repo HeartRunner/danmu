@@ -22,8 +22,10 @@ $barWidth: 285px;
       position:absolute;
       top:0;
       left:0;
-      width:40px;
+      padding:0 13px;
       height:40px;
+      background:#FAFCF3;
+      line-height:40px;
       cursor:pointer;
     }
     >.wordsContainer{
@@ -67,7 +69,7 @@ $barWidth: 285px;
     top: 0;
     bottom: 0;
     left: 0;
-    background: HSL(0, 0%, 88%);
+    background: #fff;
     transition:margin-left .3s ease;
     &.hideSide{
       margin-left: -$barWidth;

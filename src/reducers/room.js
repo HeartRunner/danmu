@@ -6,39 +6,62 @@ import {
   ROOM_LOAD_SUCCESS,
   ROOM_LOAD_FAIL,
   SOCKET_CONNET,
+  SOCKET_CONNECT_SUCCESS,
+  SOCKET_CONNECT_FAIL,
   SOCKET_DISCONNECT,
   SOCKET_SEND,
   SOCKET_RECV,
   SOCKET_JOIN_ROOM,
+  SOCKET_JOIN_ROOM_SUCCESS,
+  SOCKET_JOIN_ROOM_FAIL,
+  SOCKET_CHANGE_NAME_SUCCESS,
+  SOCKET_ERROR,
   WORDS_REMOVE
 } from '../actions/actionTypes';
 
 const initialState = {
   loaded: false,
-  words: {}
+  words: {},
+  connected: false
 };
 
 export default function info(state = initialState, action = {}) {
   switch (action.type) {
+    case SOCKET_RECV:
+      let words = state.words;
+      let newMessage = {};
+      newMessage[action.key] = action.message;
+      return {
+        ...state,
+        words: Object.assign({}, words, newMessage)
+      };
+    case WORDS_REMOVE:
+      let words = Object.assign({}, state.words);
+      delete words[action.id];
+      return {
+        ...state,
+        words
+      };
+
     case ROOM_CREATE:
       return {
         ...state,
         loadingCreate: true,
-        createErr: ''
+        createError: ''
       };
     case ROOM_CREATE_SUCCESS:
       return{
         ...state,
         loadingCreate: false,
         roomData: action.result,
-        createErr: '',
+        createError: '',
         loaded: true
       };
     case ROOM_CREATE_FAIL:
       return{
         ...state,
         loadingCreate: false,
-        createErr: action.error
+        createError: action.error
       };
     case ROOM_LOAD:
       return {
@@ -55,24 +78,35 @@ export default function info(state = initialState, action = {}) {
     case ROOM_LOAD_FAIL:
       return{
         ...state,
-        loadErr: action.error
+        loadErr: action.error,
+        loaded: true
       };
-    case SOCKET_RECV:
-      console.log('SOCKET_RECV', action.message);
-      let words = state.words;
-      let newMessage = {};
-      newMessage[action.key] = action.message;
+    case SOCKET_CONNECT_SUCCESS:
       return {
         ...state,
-        words: Object.assign({}, words, newMessage)
+        connected: true
       };
-    case WORDS_REMOVE:
-      let words = Object.assign({}, state.words);
-      delete words[action.id];
+    case SOCKET_JOIN_ROOM_SUCCESS:
+    case SOCKET_CHANGE_NAME_SUCCESS:
       return {
         ...state,
-        words
+        users: action.users
       };
+
+
+    case SOCKET_DISCONNECT:
+      return {
+        ...state,
+        users: {},
+        connected: false
+      }
+
+     case SOCKET_ERROR:
+      return {
+        ...state,
+        connected: false
+      }
+
     default:
       return state;
   }

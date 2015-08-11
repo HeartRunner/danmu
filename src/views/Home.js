@@ -40,11 +40,17 @@ class Home extends Component {
     }
   }
 
+  onTextKeyDown(event){
+    if(event.keyCode===13){
+      this.onSubmit();
+    }
+  }
+
   onChange(event) {
     this.setState({url: event.target.value, urlError:''});
   }
-  onSubmit(event) {
-      event.preventDefault();
+  onSubmit() {
+      //event.preventDefault();
       const errors = generatorValidation({
         url: this.state.url
       });
@@ -79,7 +85,9 @@ class Home extends Component {
                      id="url"
                      value={url}
                      onChange={::this.onChange}
-                     onBlur={::this.onChange}/>
+                     onBlur={::this.onChange}
+                     onKeyDown={::this.onTextKeyDown}/>
+
               {urlError && <div className={styles.textDanger}>{urlError}</div>}
               {createError && <div className={styles.textDanger}>{createError}</div>}
             </div>

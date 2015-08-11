@@ -4,8 +4,10 @@ import * as db from '../db.js';
 export function createRoom(req) {
   let url = req.body.url;
   if(url){
+    if(!/^http:\/\/|https:\/\//.test(url)){
+      url = 'http://' + url;
+    }
     let room = db.createRoom(url);
-    console.log('create room', room);
     return Promise.resolve(room);
   }
   else{

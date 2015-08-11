@@ -10,7 +10,8 @@ import {
   SOCKET_SEND,
   SOCKET_RECV,
   SOCKET_JOIN_ROOM,
-  WORDS_REMOVE
+  WORDS_REMOVE,
+  SOCKET_ERROR
 } from './actionTypes';
 
 
@@ -56,14 +57,14 @@ let socket;
 
 function _connectIO(id) {
   return (dispatch)=> {
-    if(!socket) socket = io('http://'+window.location.host+':8087');
+    if(!socket) socket = io('http://'+window.location.hostname+':8087');
     socket.on('connect', function () {
       socket.send({
         type: SOCKET_JOIN_ROOM,
         room: id
       });
 
-      socket.on('message', function (message) {
+      socket.on('message', (message) => {
         console.log('socket.io', message);
         if(message.type===SOCKET_RECV){
           message.key = generateKey();
@@ -71,6 +72,11 @@ function _connectIO(id) {
         dispatch(
           message
         );
+      });
+      socket.on('connect_error', (err) => {
+        return{
+          type: SOCKET_ERROR
+        }
       });
     });
   }
@@ -95,6 +101,7 @@ export function disconnect() {
   if(socket){
     socket.disconnect();
     socket = null;
+    console.log('disconnected');
   }
   return{
     type: SOCKET_DISCONNECT

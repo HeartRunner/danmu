@@ -27,7 +27,7 @@ export default class FlyWords extends Component {
     window.addEventListener('resize', ::this.getWindowSize);
   }
 
-  componentDidUnmount(){
+  componentWillUnmount(){
     window.removeEventListener('resize', ::this.getWindowSize);
   }
 

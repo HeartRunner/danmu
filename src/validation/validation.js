@@ -31,7 +31,7 @@ export function maxLength(max) {
 }
 
 export function url(value){
-  if(!isEmpty(value) && !/^(https?|ftp):\/\/[^\s\/$.?#].[^\s]*$/.test(value)){
+  if(!isEmpty(value) && value.indexOf('.')<0){
     return '无效的网址'
   }
 }

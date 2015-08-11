@@ -46,11 +46,10 @@ io.on('connection', function (socket) {
           type: 'SOCKET_RECV',
           message: data.message
         });
-        console.log('sendsend');
         break;
 
       case 'SOCKET_CHANGE_NAME':
-        let users = db.changeName(socket.room, socket.id data.newName);
+        let users = db.changeName(socket.room, socket.id, data.newName);
         if(users){
           io.sockets.in(socket.room).emit('message', {
             type: 'SOCKET_CHANGE_NAME_SUCCESS',
@@ -90,7 +89,7 @@ export default function api() {
             if (reason && reason.redirect) {
               res.redirect(reason.redirect);
             } else {
-              console.error('API ERROR:', pretty.render(reason));
+              console.error('API ERROR:', req.url, pretty.render(reason));
               res.status(reason.status || 500).json(reason);
             }
           });
