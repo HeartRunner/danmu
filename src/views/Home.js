@@ -109,7 +109,7 @@ class Home extends Component {
             <RaisedButton disabled={urlError.length>0||url.length===0}
               className={styles.submitButton} fullWidth={true} onClick={::this.onSubmit}
               label={loading?'创建中':'走起'}/>
-            <RaisedButton className={styles.submitButton} fullWidth={true} onClick={::this.onRandomSubmit}
+            <RaisedButton style={{marginTop:'12'}} className={styles.submitButton} fullWidth={true} onClick={::this.onRandomSubmit}
               label="随机加入"/>
             <div className={styles.copyright}>
               测试原型，联系：yaotianyu0512@gmail.com
