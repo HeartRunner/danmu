@@ -41,14 +41,17 @@ class Danmu extends Component {
   }
 
   componentDidMount(){
+
     //start socketio
     const {
       roomData,
       connect
       } = this.props;
     //if room exist
-    if(roomData)
+    if(roomData){
       connect(roomData.id);
+      if(roomData.title.length) document.title = roomData.title;
+    }
 
   }
 
@@ -61,7 +64,7 @@ class Danmu extends Component {
   }
 
   sendMessage(){
-    this.props.send(this.props.roomData.id, this.state.chat);
+    this.props.send(this.state.chat);
     this.setState({chat: ''});
   }
   toggleSideBar(){
@@ -79,13 +82,26 @@ class Danmu extends Component {
     }
   }
 
+  onNameChange(event){
+    this.setState({name: event.target.value});
+  }
+  onNameKeyDown(event){
+    if(event.keyCode===13){
+      this.props.changeName(this.state.name);
+    }
+  }
+  onUserClick(name){
+    return ()=>{
+      this.setState({chat: this.state.chat+'@'+name+' '});
+    }
+  }
   render() {
     const {roomData, words, removeWord, users, connected} = this.props;
     if(!roomData){
       return (<div>木有这个链接！</div>)
     }
 
-    const {url} = roomData;
+    const {url, title} = roomData;
     const {hideSide} = this.state;
 
     const indicator = connected?'😄':'😠';
@@ -121,15 +137,21 @@ class Danmu extends Component {
             一起弹幕
           </div>
           <List subheader="房间信息">
+            <ListItem className={styles.listItem} primaryText={title.length?title:'一起弹幕'}/>
             <ListItem className={styles.listItem} primaryText={url?url:'无内容'}/>
           </List>
-          <ListDivider />
+          <List subheader="我的信息">
+            <ListItem className={styles.listItem}>
+               <TextField placeholder="我的昵称" val={this.state.name} onChange={::this.onNameChange} onKeyDown={::this.onNameKeyDown}/>
+            </ListItem>
+          </List>
           { users !==undefined && users !== null &&
             <List subheader={'在线用户 '+ Object.keys(users).length}>
               {
 
                 Object.keys(users).map((key)=>
-                    <ListItem key={key} primaryText={users[key]}/>
+                    <ListItem key={key} onClick={::this.onUserClick(users[key])}
+                              primaryText={users[key]}/>
                 )
               }
             </List>

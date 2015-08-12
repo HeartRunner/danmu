@@ -3,11 +3,12 @@ import * as db from '../db.js';
 
 export function createRoom(req) {
   let url = req.body.url;
+  let title = req.body.title;
   if(url){
     if(!/^http:\/\/|https:\/\//.test(url)){
       url = 'http://' + url;
     }
-    let room = db.createRoom(url);
+    let room = db.createRoom(url.trim(), title.trim());
     return Promise.resolve(room);
   }
   else{
@@ -24,4 +25,8 @@ export function getRoom(req) {
   else{
     return Promise.reject('Not Found');
   }
+}
+
+export function getActive(){
+  return Promise.resolve(db.getActive());
 }

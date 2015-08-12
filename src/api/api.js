@@ -63,7 +63,19 @@ io.on('connection', function (socket) {
         }
     }
   });
-  //TODO ONDISCONNECT
+  socket.on('disconnect',  () => {
+    console.log('fucking disconnect', socket.room);
+    if(socket.room){
+      let users = db.leaveRoom(socket.room, socket.id);
+      io.sockets.in(socket.room).emit('message',{
+        type: 'SOCKET_SOMEONE_DISCONNECTED',
+        users
+      });
+      socket.leave(socket.room);
+      socket.room = null;
+
+    }
+  });
   socket.on('error', (err)=>{
     console.log(err);
   });

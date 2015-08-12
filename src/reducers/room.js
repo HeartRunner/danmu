@@ -16,7 +16,8 @@ import {
   SOCKET_JOIN_ROOM_FAIL,
   SOCKET_CHANGE_NAME_SUCCESS,
   SOCKET_ERROR,
-  WORDS_REMOVE
+  WORDS_REMOVE,
+  SOCKET_SOMEONE_DISCONNECTED
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -88,6 +89,7 @@ export default function info(state = initialState, action = {}) {
       };
     case SOCKET_JOIN_ROOM_SUCCESS:
     case SOCKET_CHANGE_NAME_SUCCESS:
+    case SOCKET_SOMEONE_DISCONNECTED:
       return {
         ...state,
         users: action.users

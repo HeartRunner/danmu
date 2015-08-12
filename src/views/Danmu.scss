@@ -71,6 +71,7 @@ $barWidth: 285px;
     left: 0;
     background: #fff;
     transition:margin-left .3s ease;
+    overflow-y: auto;
     &.hideSide{
       margin-left: -$barWidth;
     }

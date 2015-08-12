@@ -31,7 +31,8 @@ class Home extends Component {
 
   state = {
     url: '',
-    urlError: ''
+    urlError: '',
+    title: ''
   }
 
   getChildContext() {
@@ -49,6 +50,9 @@ class Home extends Component {
   onChange(event) {
     this.setState({url: event.target.value, urlError:''});
   }
+  onTitleChange(event){
+    this.setState({title: event.target.value});
+  }
   onSubmit() {
       //event.preventDefault();
       const errors = generatorValidation({
@@ -57,9 +61,12 @@ class Home extends Component {
       if (Object.keys(errors).some(key => errors[key])) {
         this.setState({urlError: errors.url});
       } else {
-        this.props.create(this.state.url, this.context.router);
+        this.props.create(this.state.url, this.state.title, this.context.router);
         this.setState({urlError:''});
       }
+  }
+  onRandomSubmit(){
+    this.props.getActive(this.context.router);
   }
 
   render() {
@@ -68,7 +75,7 @@ class Home extends Component {
       handleChange,
       error, loading
       } = this.props;
-    let {url, urlError} = this.state;
+    let {url, urlError, title} = this.state;
 
     return (
       <div className={styles.home}>
@@ -87,14 +94,23 @@ class Home extends Component {
                      onChange={::this.onChange}
                      onBlur={::this.onChange}
                      onKeyDown={::this.onTextKeyDown}/>
+              <TextField
+                     hintText="可选：房间标题"
+                     fullWidth={true}
+                     id="title"
+                     value={title}
+                     onChange={::this.onTitleChange}
+                     onBlur={::this.onTitleChange}
+                     onKeyDown={::this.onTextKeyDown}/>
 
               {urlError && <div className={styles.textDanger}>{urlError}</div>}
               {createError && <div className={styles.textDanger}>{createError}</div>}
             </div>
             <RaisedButton disabled={urlError.length>0||url.length===0}
               className={styles.submitButton} fullWidth={true} onClick={::this.onSubmit}
-              label={loading?'创建中':'走起'}>
-            </RaisedButton>
+              label={loading?'创建中':'走起'}/>
+            <RaisedButton className={styles.submitButton} fullWidth={true} onClick={::this.onRandomSubmit}
+              label="随机加入"/>
             <div className={styles.copyright}>
               测试原型，联系：yaotianyu0512@gmail.com
             </div>

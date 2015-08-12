@@ -21,7 +21,8 @@ export default function clientMiddleware(client) {
         (result) => {
           next({...rest, result, type: SUCCESS})
           if(onSuccess){
-            onSuccess(result);
+            console.log('should fire)')
+            onSuccess(result, dispatch, getState);
           }
         },
         (error) => next({...rest, error, type: FAILURE})
