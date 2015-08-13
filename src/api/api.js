@@ -19,8 +19,8 @@ io.on('connection', function (socket) {
   socket.emit('message', {
     type: 'SOCKET_CONNECT_SUCCESS'
   });
-  socket.inited = true;
   if(socket.inited) return;
+  socket.inited = true;
   socket.on('message', (data)=>{
     console.log('socket', data);
     switch(data.type){

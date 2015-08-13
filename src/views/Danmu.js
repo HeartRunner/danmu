@@ -41,7 +41,7 @@ class Danmu extends Component {
   }
 
   componentDidMount(){
-
+    console.log(roomData);
     //start socketio
     const {
       roomData,
@@ -57,7 +57,6 @@ class Danmu extends Component {
 
   componentWillUnmount(){
     if(__CLIENT__){
-      console.log('go disconnect');
      this.props.disconnect();
     }
 

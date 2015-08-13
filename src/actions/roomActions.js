@@ -75,33 +75,39 @@ function generateKey(){
 }
 const io = __CLIENT__?require('socket.io-client'):undefined;
 let socket;
-
+let getOnConnect = (id) => () => {
+  socket.send({
+    type: SOCKET_JOIN_ROOM,
+    room: id
+  });
+};
+let onConnect;
 function _connect(id, dispatch){
   if(socket&&!socket.disconnected) return;
   if(socket&&socket.disconnected&&!socket.connected) socket.connect('http://'+window.location.hostname+':8087');
   else {
     socket = io('http://'+window.location.hostname+':8087');
   }
-  socket.on('connect', function () {
-    socket.send({
-      type: SOCKET_JOIN_ROOM,
-      room: id
-    });
 
-    socket.on('message', (message) => {
-      console.log('socket.io', message);
-      if(message.type===SOCKET_RECV){
-        message.key = generateKey();
-      }
-      dispatch(
-        message
-      );
-    });
-    socket.on('disconnected', (err) => {
-      return{
-        type: SOCKET_ERROR
-      }
-    });
+  onConnect = getOnConnect(id);
+  if(onConnect) socket.removeListener('connect', onConnect);
+  socket.on('connect', onConnect);
+  if(socket.inited) return;
+  socket.inited = true;
+
+  socket.on('message', (message) => {
+    console.log('socket.io', message);
+    if(message.type===SOCKET_RECV){
+      message.key = generateKey();
+    }
+    dispatch(
+      message
+    );
+  });
+  socket.on('disconnected', (err) => {
+    return{
+      type: SOCKET_ERROR
+    }
   });
 }
 
@@ -137,6 +143,7 @@ export function disconnect() {
   if(socket){
     socket.disconnect();
     //socket = null;
+    onConnect = null;
     console.log('disconnected');
   }
   return{
