@@ -19,6 +19,8 @@ io.on('connection', function (socket) {
   socket.emit('message', {
     type: 'SOCKET_CONNECT_SUCCESS'
   });
+  socket.inited = true;
+  if(socket.inited) return;
   socket.on('message', (data)=>{
     console.log('socket', data);
     switch(data.type){
@@ -71,13 +73,16 @@ io.on('connection', function (socket) {
         type: 'SOCKET_SOMEONE_DISCONNECTED',
         users
       });
+      /*
       socket.leave(socket.room);
       socket.room = null;
-
+      */
+      socket = null;
     }
   });
   socket.on('error', (err)=>{
     console.log(err);
+
   });
 });
 
